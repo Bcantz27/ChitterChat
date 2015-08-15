@@ -1,0 +1,48 @@
+﻿extends layout
+
+block content
+
+    nav.navbar.navbar-default
+        .container
+            .navbar-header.navbar-center
+                a.nav-brand(href="./")
+                    img(src="/img/logo.png")
+            ul.nav.navbar-nav.navbar-left
+                li
+                    a(href="./") Home
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="./profile") Profile
+                -}
+            ul.nav.navbar-nav.navbar-right
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="./following") Following
+                li
+                    a(href="./myrooms") My Rooms
+                -}
+    .container
+        .row
+            .col-lg-6.col-lg-offset-3#myrooms
+                h1.text-center My Chatrooms
+                a.btn.btn-default(href="/create" style="width: 100%;margin-bottom: 10px") Create a Room
+                -if(rooms.length == 0){
+                p.text-center You are the founder of no chat rooms.
+                -}
+                ul
+                    -var n = 0
+                    while n < rooms.length
+                        li
+                            a(href="/c/" + rooms[n].name + "") #{rooms[n].name}
+                            br
+                            p2 Followers: #{rooms[n].followers}
+                            br
+                            p3 Active Chatters: #{rooms[n].usersConnected}
+                            br
+                            a.btn.btn-default(href="/edit/"+ rooms[n].id + "") Edit
+                        -n++
+    .push
+    footer
+        p.text-center ChitterChat 2015
+        a(href="/support" style="position: absolute; top: 23px; left: 50px; color: white;") Support
+        a(href="/faq" style="position: absolute; top: 23px; left: 150px; color: white;") FAQ

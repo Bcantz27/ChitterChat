@@ -1,0 +1,20 @@
+﻿extends layout
+
+block content
+
+    .container(style="margin-top:25px")
+        .row
+            .col-sm-6.col-sm-offset-3
+                h1.text-center Admin Panel
+
+                -if(message.length > 0){
+                    .alert.alert-danger= message
+                -}
+
+                form(action="/admin/deletecomment" method="post")
+                    .form-group
+                        label Delete Comment
+                            p Type the comment id to delete.
+                        input.form-control(type="number" name="commId" maxlength="32" required)
+                    button.btn.btn-warning.btn-lg(type="submit") Delete
+        .push

@@ -1,0 +1,56 @@
+﻿extends layout
+
+block content
+
+
+    nav.navbar.navbar-default
+        .container
+            .navbar-header.navbar-center
+                a.nav-brand(href="./")
+                    img(src="/img/logo.png")
+            ul.nav.navbar-nav.navbar-left
+                li
+                    a(href="./") Home
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="./profile") Profile
+                -}
+            ul.nav.navbar-nav.navbar-right
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="./following") Following
+                li
+                    a(href="./myrooms") My Rooms
+                -}
+    .container(style="margin-top:25px")
+        .row
+            .col-sm-6.col-sm-offset-3
+                h1 Send us a message.
+
+                -if(message.length > 0){
+                    .alert.alert-success= message
+                -}
+
+                form(action="/support" method="post")
+                    .form-group
+                        label Your Name
+                        input.form-control(type="text" name="name" required)
+                    .form-group
+                        label Issue or Suggestion
+                        p Please provide as much detail as possible to help us better understand the issue you are having.
+                        br
+                        textarea(style="width:100%;" rows="10" name="message" required)
+                    button.btn.btn-primary.btn-lg(type="submit") Send Message
+                hr
+                .well
+                    h1.text-center(style="font-size: 24px;") Help keep ChitterChat alive and Ad Free!
+                        form(action="https://www.paypal.com/cgi-bin/webscr" method="post" target="_top")
+                            input(type="hidden" name="cmd" value="_s-xclick")
+                            input(type="hidden" name="hosted_button_id" value="NN72CSFU72C62")
+                            input(type="image" src="https://www.paypalobjects.com/en_US/i/btn/btn_donateCC_LG.gif" border="0" name="submit" alt="PayPal - The safer, easier way to pay online!")
+                            img(alt="" border="0" src="https://www.paypalobjects.com/en_US/i/scr/pixel.gif" width="1" height="1")
+    .push
+    footer
+        a(href="/support" style="position: absolute; top: 23px; left: 50px; color: white;") Support
+        a(href="/faq" style="position: absolute; top: 23px; left: 150px; color: white;") FAQ
+        p.text-center ChitterChat 2015

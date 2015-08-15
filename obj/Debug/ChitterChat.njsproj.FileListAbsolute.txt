@@ -1,0 +1,2 @@
+C:\Users\Bryan\chitterchat\obj\Debug\ChitterChat.njsprojResolveAssemblyReference.cache
+C:\Users\Bryan\chitterchat\bin\Microsoft.NodejsTools.WebRole.dll

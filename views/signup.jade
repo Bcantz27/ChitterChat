@@ -1,0 +1,50 @@
+﻿extends layout
+
+block content
+
+    nav.navbar.navbar-default
+        .container
+            .navbar-header.navbar-center
+                a.nav-brand(href="./")
+                    img(src="/img/logo.png")
+            ul.nav.navbar-nav.navbar-left
+                li
+                    a(href="./") Home
+    .container(style="margin-top:100px")
+        .row
+            .col-sm-6.col-sm-offset-3
+                h1 Signup 
+                    span.fa.fa-pencil-square-o
+
+                -if(message.length > 0){
+                    .alert.alert-danger= message
+                -}
+
+                form(action="/signup" method="post")
+                    .form-group
+                        label Username
+                        input.form-control(type="text" name="username" required)
+                    .form-group
+                        label Email
+                        input.form-control(type="email" name="email" required)
+                    .form-group
+                        label Password
+                        input.form-control(type="password" name="password" required)
+                    .form-group
+                        label Retype Password
+                        input.form-control(type="password" name="repassword" required)
+                    button.btn.btn-primary.btn-lg(type="submit") Signup 
+                hr
+                .well(style="padding-top: 0px")
+                    h1.text-center(style="font-size: 24px;line-height:10px;") other login options:
+                    a.btn.btn-primary.fa.fa-twitter(href="/auth/twitter" style="width: 100px; margin-right: 5px;")
+                    a.btn.btn-primary.fa.fa-facebook(href="/auth/facebook" style="width: 100px; margin-right: 5px;")
+                    a.btn.btn-primary.fa.fa-reddit(href="/auth/reddit" style="width: 100px;")
+                hr
+                p Already have an account? 
+                    a(href="/login") Login
+    .push
+    footer
+        p.text-center ChitterChat 2015
+        a(href="/support" style="position: absolute; top: 23px; left: 50px; color: white;") Support
+        a(href="/faq" style="position: absolute; top: 23px; left: 150px; color: white;") FAQ

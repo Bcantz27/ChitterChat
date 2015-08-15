@@ -1,0 +1,101 @@
+﻿extends layout
+
+block content
+
+    nav.navbar.navbar-default
+        .container
+            .navbar-header.navbar-center
+                a.nav-brand(href="./")
+                    img(src="/img/logo.png")
+            ul.nav.navbar-nav.navbar-left
+                li
+                    a(href="/") Home
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="/profile") Profile
+                -}
+            ul.nav.navbar-nav.navbar-right
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="/following") Following
+                li
+                    a(href="/myrooms") My Rooms
+                -}
+    .container(style="margin-top:25px")
+        .row
+            .col-sm-6.col-sm-offset-3
+                hr
+                h1.text-center Create a Chat Room
+                p.text-center Atleast 100 Karma required to create a room. (Disabled during testing)
+
+                -if(message.length > 0){
+                    .alert.alert-danger= message
+                -}
+
+                form(action="/create" method="post")
+                    .form-group
+                        label Chat Room Name
+                            p No special characters allowed and must be atleast 5 characters.(32 Characters Max)
+                        input.form-control(type="text" name="name" maxlength="32" required)
+                    .form-group
+                        label Description
+                            p A short description about the chat room (128 Characters Max)
+                        input.form-control(type="text" name="description" maxlength="128" required)
+                    .form-group
+                        label Sidebar Details
+                            p Information about the chat room, include a list of rules. (5000 Characters Max).
+                            p Use 
+                                a(href="https://help.github.com/articles/markdown-basics/") Markdown
+                                |  to format your text.
+                        textarea(id="details" name="details" rows="10" cols="76" maxlength="5000" required)
+                    .form-group
+                        label Allow Anonymous Chatting:  
+                            label
+                                input(type="radio" name="anon" value="1")
+                                | Yes  
+                            label 
+                                input(type="radio" name="anon" value="0" checked)
+                                |  No
+                    .form-group
+                        label Reputation Requirment to chat.
+                        input.form-control(type="number" name="karmareq" value="0" min="0" required)
+                    .form-group
+                        label Seconds allowed between comments. (Min: 5 seconds)
+                        input.form-control(type="number" name="interval" value="5" min="5" required)
+                    .form-group
+                        label Type
+                        br
+                        .radio
+                            label
+                                input(type="radio" name="type" value="0" checked)
+                                | Public - Everyone can see it.
+                        .radio
+                            label
+                                input(type="radio" name="type" value="1" disabled)
+                                | Private - Can only be accessed through a unique link.
+                        .radio
+                            label
+                                input(type="radio" name="type" value="2" disabled)
+                                | Protected - Only members who are whitelisted can view it.
+                    .form-group
+                        label Filter Strength
+                        br
+                        .radio
+                            label
+                                input(type="radio" name="filter" value="0" checked)
+                                | Low
+                        .radio.disabled
+                            label
+                                input(type="radio" name="filter" value="1" disabled)
+                                | Medium
+                        .radio.disabled
+                            label
+                                input(type="radio" name="filter" value="2" disabled)
+                                | High
+                    button.btn.btn-warning.btn-lg(type="submit") Create
+                hr
+
+    footer(style="positon: relative;")
+        p.text-center ChitterChat 2015
+        a(href="/support" style="position: absolute; top: 23px; left: 50px; color: white;") Support
+        a(href="/faq" style="position: absolute; top: 23px; left: 150px; color: white;") FAQ

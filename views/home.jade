@@ -1,0 +1,152 @@
+﻿extends layout
+
+block content
+    script.
+        loggedIn = (#{loggedInAs.length} > 0 ? "true" : "false");
+        likeListJ = "#{likeList}";
+        dislikeListJ = "#{dislikeList}";
+
+    nav.navbar.navbar-default
+        .container
+            .navbar-header.navbar-center
+                a.nav-brand(href="./")
+                    img(src="/img/logo.png")
+            ul.nav.navbar-nav.navbar-left
+                li
+                    a(href="./feed") Trending
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="./profile") Profile
+                -}
+            ul.nav.navbar-nav.navbar-right
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="./following") Following
+                li
+                    a(href="./myrooms") My Rooms
+                -}
+
+    .container#homepanels
+        .row
+            .col-sm-4#newrooms
+                .well
+                    h1.text-center(style="font-size: 28px;") New
+                    p.text-center Newest chat room communities that you may be interested in.
+                    ul
+                        -var n = 0
+                        while n < newRooms.length
+                            li(style="padding: 5px 5px;")
+                                .row
+                                    .col-xs-2(style="padding-right: 2px;")
+                                        i.fa.fa-child(title="Followers")
+                                            p2(style="font-size: 14px;")  #{newRooms[n].followers}
+                                        br
+                                        i.fa.fa-weixin(title="Chatters")
+                                            p3(style="font-size: 14px;")  #{newRooms[n].usersConnected}
+                                    .col-xs-10(style="padding-left: 0px;")
+                                        a(href="/c/" + newRooms[n].name + "" style="font-family: 'Francois One', sans-serif;font-size: 22px;") #{newRooms[n].name}
+                                        p(style="font-size: 16px;") #{newRooms[n].description}
+                            -n++
+            .col-sm-4#toprooms
+                .well
+                    h1.text-center(style="font-size: 28px;") Active
+                    p.text-center Currently active chat room communities with that more chatters.
+                    -if(topRooms.length == 0){
+                    p.text-center You are following no chat rooms.
+                    -}
+                    ul
+                        -n = 0
+                        while n < topRooms.length
+                            li(style="padding: 5px 5px;")
+                                .row
+                                    .col-xs-2(style="padding-right: 2px;")
+                                        i.fa.fa-child(title="Followers")
+                                            p2(style="font-size: 14px;")  #{topRooms[n].followers}
+                                        br
+                                        i.fa.fa-weixin(title="Chatters")
+                                            p3(style="font-size: 14px;")  #{topRooms[n].usersConnected}
+                                    .col-xs-10(style="padding-left: 0px;")
+                                        a(href="/c/" + topRooms[n].name + "" style="font-family: 'Francois One', sans-serif;font-size: 22px;") #{topRooms[n].name}
+                                        p(style="font-size: 16px;") #{topRooms[n].description}
+                            -n++
+            .col-sm-4#suggestedrooms
+                .well
+                    h1.text-center(style="font-size: 28px;") Suggested
+                    p.text-center Suggested chat room communities that you may not know about.
+                    ul
+                        -n = 0
+                        while n < suggRooms.length
+                            li(style="padding: 5px 5px;")
+                                .row
+                                    .col-xs-2(style="padding-right: 2px;")
+                                        i.fa.fa-child(title="Followers")
+                                            p2(style="font-size: 14px;")  #{suggRooms[n].followers}
+                                        br
+                                        i.fa.fa-weixin(title="Chatters")
+                                            p3(style="font-size: 14px;")  #{suggRooms[n].usersConnected}
+                                    .col-xs-10(style="padding-left: 0px;")
+                                        a(href="/c/" + suggRooms[n].name + "" style="font-family: 'Francois One', sans-serif; font-size: 22px;") #{suggRooms[n].name}
+                                        p(style="font-size: 16px;") #{suggRooms[n].description}
+                            -n++
+        hr
+    .container
+        .row
+            .col-lg-8#trendy
+                h1(style="font-size: 34px;") What is this place?
+                p Welcome to ChitterChat, a place where everyone is welcome to express their thoughts on an ever expanding platform of chatrooms. You may be wondering what is all this stuff im seeing, if so keep reading and you will better understand how to use the site.
+                p Above here are a selection of chatrooms displayed in 3 sections (New, Active, Suggested) the sections speak for themselves. In each section there are chat rooms displayed with statistics and information about the room. You should read the description under the name of the chat room to help decide which chat room you want to join. To join a room simply click on the name of room. 
+                p There is 
+                    b no need to register 
+                    | to join the chat room, however if you do not register you will not have access to to features like voting, following, badges, create/moderate rooms, and a username associated with your messages.
+                p So what are you waiting for! Go get Chatting!
+                p If you still have questions please visit our 
+                    a(href="/faq") FAQ 
+                    | page.
+                .well
+                    script.
+                        ( function() {
+                        if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+                        var unit = {"calltype":"async[2]","publisher":"Bcantz27","width":724,"height":90,"sid":"Chitika Default"};
+                        var placement_id = window.CHITIKA.units.length;
+                        window.CHITIKA.units.push(unit);
+                        document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                        }());
+                    script(type="text/javascript" src="//cdn.chitika.net/getads.js" async)
+            .col-lg-3#trendysidebar
+                -if(loggedInAs.length > 0){
+                p1 Welcome, 
+                    b #{loggedInAs}
+                a.btn.btn-primary( href="/logout") Logout 
+                    span.fa.fa-power-off
+                a.btn.btn-primary(href="/reprewards" style="width: 100%;margin: 10px 0px") Rep Rewards 
+                -}else{
+                p Login or signup for free to get access to all the features Chitter Chat has to offer and get active in a community.
+                a.btn.btn-primary(href="/login" style="width: 49%; margin-right: 3px;") Login 
+                    span.fa.fa-sign-in
+                a.btn.btn-primary(href="/signup" style="width: 49%") Signup 
+                    span.fa.fa-pencil-square-o
+                -}
+                a.btn.btn-primary(href="/create" style="width: 100%;margin: 10px 0px") Create a Room
+                hr
+                h1.text-center(style="font-size: 28px") Announcements
+                p If you have any issues or suggestions please feel free to send us a message at our 
+                    a(href="/support") support
+                    |  page.
+                hr
+                h1.text-center(style="font-size: 28px") Get Chatting!
+                p Chitter Chat allows members to create real-time chat rooms online where like-minded communities can get together and socialize in a unique way.
+            .col-lg-1#social
+                ul
+                    li
+                        a.fa.fa-twitter.fa-3x(href="https://twitter.com/chitter_chat")
+                    li
+                        a.fa.fa-facebook-official.fa-3x(href="https://www.facebook.com/ChitterChatNet")
+                    li
+                        a.fa.fa-envelope-o.fa-3x(href="/support")
+
+    footer
+        p.text-center ChitterChat 2015
+        a(href="/support" style="position: absolute; top: 23px; left: 50px; color: white;") Support
+        a(href="/faq" style="position: absolute; top: 23px; left: 150px; color: white;") FAQ
+
+block body_end

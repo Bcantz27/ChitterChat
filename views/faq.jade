@@ -1,0 +1,124 @@
+﻿extends layout
+
+block content
+    script.
+        loggedIn = (#{loggedInAs.length} > 0 ? "true" : "false");
+        likeListJ = "#{likeList}";
+        dislikeListJ = "#{dislikeList}";
+
+    nav.navbar.navbar-default
+        .container
+            .navbar-header.navbar-center
+                a.nav-brand(href="./")
+                    img(src="/img/logo.png")
+            ul.nav.navbar-nav.navbar-left
+                li
+                    a(href="./") Home
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="./profile") Profile
+                -}
+            ul.nav.navbar-nav.navbar-right
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="./following") Following
+                li
+                    a(href="./myrooms") My Rooms
+                -}
+    .container
+        .alert.alert-warning.alert-dismissible(role="alert")
+            button.close(data-dismiss="alert" style="margin-top: 12px;")
+                span(aria-hidden="true") &times;
+                span.sr-only Close
+            p.text-center This section contains a wealth of information, related to <strong>ChitterChat</strong>. 
+            p.text-center If you cannot find an answer to your question, make sure to contact us on our 
+                a(href="/support") support page. 
+
+        .panel-group#accordion
+            .faqHeader General Questions
+            .panel.panel-default
+                .panel-heading
+                    .panel-title
+                        a.accordion-toggle(data-toggle="collapse" data-parent="#accordion" href="#collapseOne") Is account registration required?
+                #collapseOne.panel-collapse.collapse.in
+                    .panel-body  
+                        p Registration is not required, however If you do not register you wont have access to features such as creating rooms, voting, following rooms, badges, and viewing your past messages.
+            .panel.panel-default
+                .panel-heading
+                    .panel-title
+                        a.accordion-toggle(data-toggle="collapse" data-parent="#accordion" href="#collapseTwo") Can I chat without registering?
+                #collapseTwo.panel-collapse.collapse
+                    .panel-body
+                        p Some chat rooms allow visitors to chat anonymously with no account required, but it is up to the founder of that chat room to make the descision to allow anonymous chat or not. 
+            .panel.panel-default
+                .panel-heading
+                    .panel-title
+                        a.accordion-toggle(data-toggle="collapse" data-parent="#accordion" href="#collapseThree") Is there a list of all the emotes?
+                #collapseThree.panel-collapse.collapse
+                    .panel-body
+                        p We are working on it :)
+            .panel.panel-default
+                .panel-heading
+                    .panel-title
+                        a.accordion-toggle(data-toggle="collapse" data-parent="#accordion" href="#collapseFour") What does voting on messages do?
+                #collapseFour.panel-collapse.collapse
+                    .panel-body
+                        p Voting on messages will position it differently in the 
+                            a(href="/feed") feed 
+                            | and the filters in the chat rooms. Giving a message a positive vote will move it closer to the top of the feed. While giving a message a negative vote will move it further down the feed and potentially hide the message all together if it gets alot of negative votes.
+            .panel.panel-default
+                .panel-heading
+                    .panel-title
+                        a.accordion-toggle(data-toggle="collapse" data-parent="#accordion" href="#collapseFive") What is on my feed?
+                #collapseFive.panel-collapse.collapse
+                    .panel-body
+                        p For users that are logged in, your 
+                            a(href="/feed") feed 
+                            | will display the top voted messages in the all the chat rooms that you are following. If you are not logged in, it will take the top messages from all the chat rooms.
+            .panel.panel-default
+                .panel-heading
+                    .panel-title
+                        a.accordion-toggle(data-toggle="collapse" data-parent="#accordion" href="#collapseSix") Can I make my own chat room?
+                #collapseSix.panel-collapse.collapse
+                    .panel-body
+                        p If you have a registered account you can go to the 
+                            a(href="/create") create room 
+                            | page and fill in all the details. Once the room is made, you will be assigned the founder of the rooms and will be able to edit the details later from your 
+                            a(href="/myrooms") my rooms 
+                            | page.
+
+
+        hr
+    .container
+        .row
+            .col-sm-3.col-sm-offset-1
+                h1.text-center(style="font-size: 28px") Announcements
+                p If you have any issues or suggestions please feel free to send us a message at our 
+                    a(href="/support") support
+                    |  page.
+            .col-sm-4
+                -if(loggedInAs.length > 0){
+                p1 Welcome, 
+                    b #{loggedInAs}
+                a.btn.btn-primary( href="/logout") Logout 
+                    span.fa.fa-power-off
+                a.btn.btn-primary(href="/reprewards" style="width: 100%;margin: 10px 0px") Rep Rewards 
+                -}else{
+                p Login or signup for free to get access to all the features Chitter Chat has to offer and get active in a community.
+                a.btn.btn-primary(href="/login" style="width: 49%; margin-right: 3px;") Login 
+                    span.fa.fa-sign-in
+                a.btn.btn-primary(href="/signup" style="width: 49%") Signup 
+                    span.fa.fa-pencil-square-o
+                -}
+                a.btn.btn-primary(href="/create" style="width: 100%;margin: 10px 0px") Create a Room
+
+            .col-sm-3
+                h1.text-center(style="font-size: 28px") Get Chatting!
+                p Chitter Chat allows members to create real-time chat rooms online where like-minded communities can get together and socialize in a in a unique way.
+    footer
+        p.text-center ChitterChat 2015
+        a(href="/support" style="position: absolute; top: 23px; left: 50px; color: white;") Support
+        a(href="/faq" style="position: absolute; top: 23px; left: 150px; color: white;") FAQ
+
+block body_end
+    script(type='text/javascript' src='/js/feed.js')

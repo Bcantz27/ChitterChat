@@ -1,0 +1,97 @@
+﻿extends layout
+
+block content
+    script.
+        loggedIn = (#{loggedInAs.length} > 0 ? "true" : "false");
+        likeListJ = "#{likeList}";
+        dislikeListJ = "#{dislikeList}";
+
+    nav.navbar.navbar-default
+        .container
+            .navbar-header.navbar-center
+                a.nav-brand(href="./")
+                    img(src="/img/logo.png")
+            ul.nav.navbar-nav.navbar-left
+                li
+                    a(href="./") Home
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="./profile") Profile
+                -}
+            ul.nav.navbar-nav.navbar-right
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="./following") Following
+                li
+                    a(href="./myrooms") My Rooms
+                -}
+    .container
+        .row
+            .col-lg-8.col-lg-offset-2#trendy
+                h1.text-center(style="margin-top:0px; font-size: 28px;") Trendy Chat
+                p.text-center This is your chat feed. Here you can view what chat messages are getting alot of positive attention. If you are logged in it will only display trending chat for rooms that you are following.
+                -if(trendy.length != 0){
+
+                -var escapeHtml = function(string) {
+                -   var regex = /[&<>"']/g;
+                -   return string.replace(regex, function (s) {
+                -       return entityMap[s];
+                -   });
+                -};
+
+                -var urlify = function(text) {
+                -    var urlRegex = /(https?:\/\/[^\s]+)/g;
+                -    return text.replace(urlRegex, function (url) {
+                -        return '<a href="' + url + '" target="_blank">' + url + '</a>';
+                -    });
+                -};
+
+                ul
+                    -var n = 0
+                    while n < trendy.length
+                        li(data-commentId=''+ trendy[n].id +'')
+                            a(href="/u/" + commNames[n] + "") #{commNames[n]}: 
+                            p3!= urlify(escapeHtml(trendy[n].message))
+                            a.room(href="/c/" + commRooms[n] + "") /c/#{commRooms[n]}
+                            i.fa.fa-arrow-up(style="color:#A4A4A4;")
+                                span(style="color: green;") #{trendy[n].likes}
+                            i.fa.fa-arrow-down(style="color:#A4A4A4;")
+                                span(style="color: red;") #{trendy[n].dislikes}
+                        -n++
+                button#loadmore.btn.fa.fa-chevron-down( style="width: 100%")
+                -}else{
+                p.text-center Nothing trendy going on in your followed chat rooms.
+                -}
+        hr
+    .row
+        .col-sm-3.col-sm-offset-1
+            h1.text-center(style="font-size: 28px") Announcements
+            p If you have any issues or suggestions please feel free to send us a message at our 
+                a(href="/support") support
+                |  page.
+        .col-sm-4
+            -if(loggedInAs.length > 0){
+            p1 Welcome, 
+                b #{loggedInAs}
+            a.btn.btn-primary( href="/logout") Logout 
+                span.fa.fa-power-off
+            a.btn.btn-primary(href="/reprewards" style="width: 100%;margin: 10px 0px") Rep Rewards 
+            -}else{
+            p Login or signup for free to get access to all the features Chitter Chat has to offer and get active in a community.
+            a.btn.btn-primary(href="/login" style="width: 49%; margin-right: 3px;") Login 
+                span.fa.fa-sign-in
+            a.btn.btn-primary(href="/signup" style="width: 49%") Signup 
+                span.fa.fa-pencil-square-o
+            -}
+            a.btn.btn-primary(href="/create" style="width: 100%;margin: 10px 0px") Create a Room
+
+        .col-sm-3
+            h1.text-center(style="font-size: 28px") Get Chatting!
+            p Chitter Chat allows members to create real-time chat rooms online where like-minded communities can get together and socialize in a in a unique way.
+    footer
+        p.text-center ChitterChat 2015
+        a(href="/support" style="position: absolute; top: 23px; left: 50px; color: white;") Support
+        a(href="/faq" style="position: absolute; top: 23px; left: 150px; color: white;") FAQ
+
+block body_end
+    script(type='text/javascript' src='/js/feed.js')

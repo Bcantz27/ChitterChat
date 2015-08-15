@@ -1,0 +1,122 @@
+﻿extends layout
+
+block content
+    script(type='text/javascript' src='/socket.io/socket.io.js')
+    script.
+        name = "#{name}";
+        following = "#{following}";
+        likeListJ = "#{likeList}";
+        dislikeListJ = "#{dislikeList}";
+        chatId = "#{roomId}";
+        interval = "#{interval}";
+    
+    style.
+        body,html{ height: 100%;}
+
+    nav.side-nav
+        -if(name.length > 0) {
+        a(href="/")
+            i.fa.fa-home.fa-stack-2x
+                p Home
+        a(href="/following")
+            i.fa.fa-comments.fa-stack-2x 
+                p Rooms
+        a(href="/profile")
+            i.fa.fa-user.fa-stack-2x
+                p Profile
+        a(href="/logout")
+            i.fa.fa-power-off.fa-stack-2x
+                p Logout
+        -}else{
+        a(href="/")
+            i.fa.fa-home.fa-stack-2x
+                p Home
+        a(href="/login")
+            i.fa.fa-user.fa-stack-2x
+                p Login
+        -}
+        
+
+    .container#cont(style="overflow: hidden;")
+        .col-xs-9.col#chat
+            ul#filters
+                li.active#realtime Realtime
+                li#hot Hot
+                li#top Top
+                -if(name.length > 0){
+                li#liked Liked
+                li#mine Mine
+                -}
+            #messages
+            .container#chatbox
+                .row
+                    -if(name.length > 0){
+                    .col-xs-8.col-sm-9
+                        textarea(type="text" id="message-box" rows="4" style="margin-top:5px;width:100%;")
+                    .col-xs-4.col-sm-3
+                        button#send-message-btn.btn.btn-primary.btn-sm.btn-block(style="margin-top: 61px;") Chat
+                    -}else{
+                    -if(anon == 1){
+                    .col-xs-8
+                        textarea(type="text" id="message-box" rows="2" style="margin-top:5px;width:100%;")
+                        p(style="font-size: 14px;line-height: 14px;") You are not logged in, messages will have limited features.
+                    .col-xs-4
+                        button#send-message-btn.btn.btn-primary.btn-sm.btn-block(style="margin-top: 18px;") Chat
+                    -}else{
+                     p.text-center(style="padding-top: 35px;font-size: 24px") You must be logged in to chat in this room.
+                    -}
+                    -}
+                #errors
+        .col-xs-3#chatinfo
+            h1 #{roomName}
+            -if(name.length > 0){
+            button#follow-btn.btn.btn-primary.btn-md.btn-block Follow
+            button#unfollow-btn.btn.btn-primary.btn-md.btn-block Unfollow
+            -}
+            b Followers: 
+            p1#followcount #{followers}
+            br
+            p1#connected
+            br
+            p1 Only 1 comment per #{interval} seconds.
+            br
+            -if(anon == 1){
+            p1 Anonymous Chatting is 
+                b Enabled.
+            -}else{
+            p1 Anonymous Chatting is 
+                b Disabled.
+            -}
+            hr
+            p2 #{description}
+            br
+            hr
+            #details
+                != details
+            br
+            hr
+            -if(isMod || name == founder || name == "Secretbryan"){
+            a.btn.btn-primary.btn-md(href="/edit/" + roomId + "") Edit Settings
+            -}
+            p.text-center Moderators
+            ul#mods
+                li 
+                    a(href="/u/" + founder + "") #{founder}
+                -var n = 0
+                while n < modList.length
+                    li
+                        a(href="/u/" + modList[n] + "") #{modList[n]}
+                    -n++
+            hr
+            script.
+                ( function() {
+                if (window.CHITIKA === undefined) { window.CHITIKA = { 'units' : [] }; };
+                var unit = {"calltype":"async[2]","publisher":"Bcantz27","width":250,"height":250,"sid":"Chitika Default"};
+                var placement_id = window.CHITIKA.units.length;
+                window.CHITIKA.units.push(unit);
+                document.write('<div id="chitikaAdBlock-' + placement_id + '"></div>');
+                }());
+            script(type="text/javascript" src="//cdn.chitika.net/getads.js" async)
+
+block body_end
+    script(type='text/javascript' src='/js/index.js')

@@ -1,0 +1,159 @@
+﻿extends layout
+
+block content
+
+    nav.navbar.navbar-default
+        .container
+            .navbar-header.navbar-center
+                a.nav-brand(href="./")
+                    img(src="/img/logo.png")
+            ul.nav.navbar-nav.navbar-left
+                li
+                    a(href="/") Home
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="/profile") Profile
+                -}
+            ul.nav.navbar-nav.navbar-right
+                -if(loggedInAs.length > 0){
+                li
+                    a(href="/following") Following
+                li
+                    a(href="/myrooms") My Rooms
+                -}
+    .container(style="margin-top:100px")
+        .row
+            .col-sm-6.col-sm-offset-3
+                hr
+                h1.text-center Edit #{room.name}
+
+                -if(message.length > 0){
+                    .alert.alert-success= message
+                -}
+
+                form(action="/edit/"+room.id+"" method="post")
+                    .form-group
+                        label Description
+                            p A short description about the chat room (128 Characters Max)
+                        input.form-control(type="text" name="description" maxlength="128" value=""+room.description+"" required)
+                    .form-group
+                        label Sidebar Details
+                            p Information about the chat room, include a list of rules. (5000 Characters Max)
+                            p Use 
+                                a(href="https://help.github.com/articles/markdown-basics/") Markdown
+                                |  to format your text.
+                        textarea(id="details" name="details" rows="10" cols="76" maxlength="5000" required)
+                            | #{room.details}
+                    .form-group
+                        label Allow Anonymous Chatting:  
+                            -if(room.anon == 1){
+                            label
+                                input(type="radio" name="anon" value="1" checked)
+                                | Yes  
+                            label 
+                                input(type="radio" name="anon" value="0")
+                                |  No
+                            -}else{
+                            label
+                                input(type="radio" name="anon" value="1")
+                                | Yes  
+                            label 
+                                input(type="radio" name="anon" value="0" checked)
+                                |  No
+                            -}
+                    .form-group
+                        label Reputation Requirment to chat.
+                        input.form-control(type="number" name="karmareq" min="0" value=""+room.karmaReq+"" required)
+                    .form-group
+                        label Seconds allowed between comments. (Min: 5 seconds)
+                        input.form-control(type="number" name="chatinterval" min="5" value=""+room.chatInterval+"" required)
+                    .form-group
+                        label Type
+                        br
+                        .radio
+                            label
+                                -if(room.type==0){
+                                input(type="radio" name="type" value="0" checked)
+                                -}else{
+                                input(type="radio" name="type" value="0")
+                                -}
+                                | Public - Everyone can see it.
+                        .radio.disabled
+                            label
+                                -if(room.type==1){
+                                input(type="radio" name="type" value="1" checked)
+                                -}else{
+                                input(type="radio" name="type" value="1" disabled)
+                                -}
+                                | Private - Can only be accessed through a unique link.
+                        .radio.disabled
+                            label
+                                -if(room.type==2){
+                                input(type="radio" name="type" value="2" checked)
+                                -}else{
+                                input(type="radio" name="type" value="2" disabled)
+                                -}
+                                | Protected - Only members who are whitelisted can view it.
+                    .form-group
+                        label Filter Strength
+                        br
+                        .radio
+                            label
+                                -if(room.filter==0){
+                                input(type="radio" name="filter" value="0" checked)
+                                -}else{
+                                input(type="radio" name="filter" value="0")
+                                -}
+                                | Low
+                        .radio.disabled
+                            label
+                                -if(room.filter==1){
+                                input(type="radio" name="filter" value="1" checked)
+                                -}else{
+                                input(type="radio" name="filter" value="1" disabled)
+                                -}
+                                | Medium
+                        .radio.disabled
+                            label
+                                -if(room.filter==2){
+                                input(type="radio" name="filter" value="2" checked)
+                                -}else{
+                                input(type="radio" name="filter" value="2" disabled)
+                                -}
+                                | High
+                        button.btn.btn-warning.btn-lg(type="submit") Save
+                hr
+                -if(loggedInAs == room.founder || loggedInAs == "Secretbryan"){
+                h1.text-center Moderator's
+                ul#modlist
+                    -if(modList != null){
+                    -var n = 0
+                    while n < modList.length
+                        li
+                            a(href="/u/" + modList[n] + "") #{modList[n]}
+                            form(action="/edit/"+room.id+"/removemod/"+modList[n]+"" method="post")
+                                button.btn.btn-default.btn-sm(type="submit") Remove
+                        -n++
+                    -}
+                form(action="/edit/"+room.id+"/addmod" method="post")
+                    .form-group
+                        label Username:
+                        input.form-control(type="text" name="mod" maxlength="32" required)
+                    button.btn.btn-warning.btn-lg(type="submit") Add
+                hr
+                h1.text-center Pass Ownership
+                form(action="/edit/"+room.id+"/passownership" method="post")
+                    .form-group
+                        label Username:
+                        input.form-control(type="text" name="newowner" maxlength="32" required)
+                    button.btn.btn-warning.btn-lg(type="submit") Pass Ownership
+                hr
+                h1.text-center Delete Room
+                form(action="/edit/"+room.id+"/delete" method="post")
+                    button.btn.btn-danger.btn-lg(type="submit") Delete
+                -}
+
+    footer
+        p.text-center ChitterChat 2015
+        a(href="/support" style="position: absolute; top: 23px; left: 50px; color: white;") Support
+        a(href="/faq" style="position: absolute; top: 23px; left: 150px; color: white;") FAQ

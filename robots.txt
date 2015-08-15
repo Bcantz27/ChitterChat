@@ -1,0 +1,3 @@
+User-Agent: *
+Disallow: http://www.chitterchat.net/c/*
+Disallow: http://www.chitterchat.net/u/*

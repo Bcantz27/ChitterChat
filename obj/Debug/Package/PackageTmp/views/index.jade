@@ -1,0 +1,27 @@
+﻿extends layout
+
+block content
+    .wrap
+      .container#cont 
+        .col-xs-8.col-sm-offset-1#chat
+            h1 Welcome to the Chatroom Prototype
+            #messages
+        .col-xs-3#chatinfo
+            p1#connected
+        .push
+    .footer
+      .container-fluid
+        .row
+          .col-sm-3
+            input(type="text" id="name-box" class="form-control input-lg" placeholder="Username..." rows="3" required)
+          .col-sm-2
+            button#choose-name-btn.btn.btn-primary.btn-lg.btn-block Choose Name
+          .col-sm-4
+            #errors
+        .row
+          .col-xs-8.col-sm-9
+            input(type="text" id="message-box" class="form-control input-lg" placeholder="Write a message here..." rows="3" required)
+          .col-xs-4.col-sm-3
+            button#send-message-btn.btn.btn-primary.btn-lg.btn-block Send Message
+block body_end
+    script(type='text/javascript' src='/js/index.js')

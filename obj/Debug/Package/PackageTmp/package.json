@@ -1,0 +1,17 @@
+{
+  "name": "ExpressApp1",
+  "version": "0.0.0",
+  "description": "ExpressApp1",
+  "main": "app.js",
+  "author": {
+    "name": "Bryan",
+    "email": ""
+  },
+  "dependencies": {
+    "express": "3.4.4",
+    "jade": "*",
+    "mysql": "^2.8.0",
+    "socket.io": "^1.3.6",
+    "stylus": "*"
+  }
+}
