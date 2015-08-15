@@ -1,0 +1,10 @@
+.ntvs_analysis.dat
+ChitterChat.njsproj
+ChitterChat.sln
+ChitterChat.v12.suo
+/node_modules/*
+/README.md
+/node_modules/
+/config/database.json
+/config/database.js
+/config/passport.js
